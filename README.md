@@ -4,9 +4,11 @@
 npm init
 
 npm install
+
 #above command install the require npm packages
 
 #To start the project
+
 npm start
 
 #overview
