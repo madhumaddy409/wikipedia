@@ -15,15 +15,21 @@ npm start
 
 2 Login with credential.
 
-3 in home page use keyword to search
-4 you will get list of categories with respective what keyword you searched 
+3 in home page use keyword to search.
+
+4 you will get list of categories with respective what keyword you searched.
 (Title and summery)
-5 click on Title you will navigate article 
-6 History tab will give you to what pages you are searched previously
+
+5 click on Title you will navigate article.
+
+6 History tab will give you to what pages you are searched previously.
 
 stack used:
-Backend node js, mongoDB Cluster(NOSQL)
-ejs forntend
+
+Backend node js, mongoDB Cluster(NOSQL).
+
+ejs forntend.
+
 JWT Token based authentication
 
 
