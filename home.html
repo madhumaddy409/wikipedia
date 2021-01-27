@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>wikipedia</h1>
+
+
+    <script>
+                
+        var url = "https://en.wikipedia.org/w/api.php"; 
+
+        var params = {
+            action: "query",
+            format: "json",
+            list: "allcategories",
+            acfrom: "india vs pakisthan",
+            aclimit: 20
+        };
+
+        url = url + "?origin=*";
+        Object.keys(params).forEach(function(key){url += "&" + key + "=" + params[key];});
+
+        fetch(url)
+            .then(function(response){return response.json();})
+            .then(function(response) {
+                console.log(response)
+                var categories = response.query.allcategories;
+                for (var cat in categories) {
+                    console.log(categories[cat]["*"]);
+                }
+            })
+            .catch(function(error){console.log(error);});
+    </script>
+</body>
+</html>

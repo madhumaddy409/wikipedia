@@ -1,0 +1,24 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/index"> <h1>wikipedia</h1></a>
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="./index">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="./History">History</a>
+      </li>
+      <li style="margin-top: 0rem pl-2" >
+        <button  type="submit" class="btn btn-primary" onclick="logout()">logout</button>
+    
+        </li>
+
+  </nav>
+
+  <script>
+      function logout() {
+        localStorage.clear()
+        location.href = './'
+
+      }
+
+  </script>

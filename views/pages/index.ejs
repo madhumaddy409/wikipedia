@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- CSS (load bootstrap from a CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { padding-top:50px; }
+
+    
+    </style>
+</head>
+<body  class="container">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+   
+
+    <div class="container">
+        <div>
+            
+            <div class="row">
+                <div class="column">
+                    <h4 style="width:100%"> user : </h4>
+                </div>
+                <div class="column">
+                  <h4 id = "username" style="width:100%"></h4>
+                
+              </div>
+           
+         
+
+        </div>
+    </div>
+    
+ 
+
+        
+    <main>
+        
+        
+        <div class="mt-2 p-5">
+            <div class="row pb-4">
+                
+              <div class="col-md-10">
+                <input type="text" id="sTerm" class="form-control" placeholder="Type here to search an article on wikipedia... ">
+              </div>
+              <div class="col-md-2">
+                <button type="button" id="searchArticle" class="btn btn-primary btn-block" onclick="sendToServer()">Search</button>
+              </div>
+            </div>
+            <div id="resultArea" class="form-control border-0" contenteditable="false">
+
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+
+    const savedToken = localStorage.getItem('token')
+    console.log(savedToken)
+
+    if(!savedToken)
+    {
+        location.href = './'
+    }
+
+
+    // user request to store user data to local storage
+
+    fetch('http://localhost:3030/api/me/',{
+            method: 'GET', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+                'token': savedToken
+            },
+            
+            })
+            .then(response => response.json())
+            .then(data => {
+            console.log('Success:', data);
+
+            const username = data.username
+            document.querySelector('#username').textContent=username;
+
+            //user data storing in local storage
+            localStorage.setItem('user',JSON.stringify(data))
+
+            })
+
+         
+
+
+            //add to history
+            async function countUserVisits(title) {
+                const user = JSON.parse(localStorage.getItem('user'))
+                console.log(user)
+
+                        const data = { user_id: user._id ,
+                                        
+                                         title: title
+    
+                                    };
+
+                        console.log(data)
+
+
+                        fetch('http://localhost:3030/api/history', {
+                            method: 'POST', // or 'PUT'
+                            headers: {
+                                'Content-Type': 'application/json'
+                             
+                            },
+                            body: JSON.stringify(data),
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                            console.log('Success:', data);
+                            window.open(`./wiki?title=${title}`, '_blank')
+                             
+                          })
+
+                            
+
+
+                        }
+
+
+
+
+
+
+
+
+                    //fetching categories of user search
+                    var url = "https://en.wikipedia.org/w/api.php"; 
+                    const all_messages = document.getElementById("resultArea");
+                    
+                    async function sendToServer(){
+                        var search = document.getElementById("sTerm").value
+                        document.getElementById("resultArea").innerHTML = ""
+                        console.log(search)
+                    
+
+                        
+
+
+            //             //content
+                        async function searchWikipedia(search) {
+                        const endpoint = `https://en.wikipedia.org/w/api.php?action=query&prop=revisions&list=search&prop=info&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${search}`;
+                
+                        
+                        const response = await fetch(endpoint);
+                        if (!response.ok) {
+                            throw Error(response.statusText);
+                        }
+                        const json = await response.json();
+                        console.log(json)
+                    
+                        return json;
+                        }
+
+                        function displayResults(results) {
+                        // Get a reference to the `.js-search-results` element
+                        const searchResults = document.getElementById("resultArea");
+
+                        // Iterate over the `search` array. Each nested object in the array can be
+                        // accessed through the `result` parameter
+                        results.query.search.forEach(result => {
+                            const url = `https://en.wikipedia.org/?curid=${result.pageid}`;
+
+                            // Append the search result to the DOM
+                            searchResults.insertAdjacentHTML(
+                            'beforeend',
+                            `<div class="result-item">
+                                <h3 class="result-title">
+                                    <p onclick="countUserVisits(\' ${result.title} '\)" style="color:#007bff;">${result.title} </p>
+                               
+                              
+                                </h3>
+            
+                                <span class="result-snippet">${result.snippet}</span><br>
+                            </div>`
+                            );
+                            
+                        });
+                        }
+
+
+
+                        try {
+                                const results = await searchWikipedia(search);
+                                displayResults(results);
+            } catch (err) {
+                console.log(err);
+                alert('Failed to search wikipedia');
+            } 
+
+
+                    
+                    
+            }
+
+    
+                
+        
+
+        
+    </script>
+
+
+
+
+</body>
+</html>

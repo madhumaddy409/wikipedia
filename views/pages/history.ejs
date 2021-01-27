@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- CSS (load bootstrap from a CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { padding-top:50px; }
+
+    
+    </style>
+</head>
+<body  class="container">
+
+    <header>
+        <%- include('../partials/header'); %>
+    </header>
+    <div> 
+
+    </div class="container">
+        <div>
+            
+            <div class="row">
+                <div class="column">
+                    <h4 style="width:100%"> user : </h4>
+                </div>
+                <div class="column">
+                  <h4 id = "username" style="width:100%"></h4>
+                
+              </div>
+           
+         
+
+        </div>
+    </div>
+    
+ 
+
+        
+    <main>
+        
+        
+        <div class="mt-2 p-5">
+            <div class="row pb-4">
+                
+              <div class="col-md-10">
+                <div id="resultArea" class="form-control border-0" contenteditable="false"></div>
+                
+              </div>
+              
+
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+
+    const savedToken = localStorage.getItem('token')
+    console.log(savedToken)
+
+    const user = JSON.parse(localStorage.getItem('user'))
+    console.log(user.username)
+    document.querySelector('#username').textContent=user.username;
+
+    if(!savedToken)
+    {
+        location.href = './'
+    }
+
+
+
+   // user request to store user data to local storage
+
+   fetch('http://localhost:3030/api/history',{
+            method: 'GET', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+                'token': savedToken
+            },
+            
+            })
+            .then(response => response.json())
+            .then(data => {
+            console.log('Success:', data);
+            data.forEach(result => {
+            var div = document.querySelector('#resultArea')
+            
+            
+            div.innerHTML = div.innerHTML + 
+            `<div class="result-item">
+                                <h3 class="result-title">
+                                    <div>
+                                        <a href="./wiki?title=${result.title}"   target="_blank" rel="noopener">${result.title}</a>
+                                    </div>
+                               
+                              
+                                </h3>
+                                </div>`
+
+
+                            })
+
+
+                        
+            })
+    
+                
+        
+
+        
+    </script>
+
+
+
+
+</body>
+</html>
