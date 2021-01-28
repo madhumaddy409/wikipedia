@@ -11,6 +11,8 @@ npm install
 
 npm start
 
+open Browser http://localhost:3030/
+
 #overview
 
 1 Register by clicking option create user.
