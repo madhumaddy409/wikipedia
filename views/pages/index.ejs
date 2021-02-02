@@ -57,7 +57,10 @@
 
     // user request to store user data to local storage
 
-    fetch('http://localhost:3030/api/me/',{
+    // fetch('http://localhost:3030/api/me/',{
+    fetch('https://testvideochatdemo.herokuapp.com/api/me/',{
+
+        
             method: 'GET', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
@@ -94,7 +97,8 @@
                         console.log(data)
 
 
-                        fetch('http://localhost:3030/api/history', {
+                        // fetch('http://localhost:3030/api/history', {
+                            fetch('https://testvideochatdemo.herokuapp.com/api/history',{
                             method: 'POST', // or 'PUT'
                             headers: {
                                 'Content-Type': 'application/json'
