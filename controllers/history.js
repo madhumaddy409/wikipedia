@@ -11,7 +11,7 @@ exports.posthistorySearch = async (req, res) =>  {
     
     let history = await History.findOne({
         user_id,title
-      });
+      }).populate('User');
       if (history)
         return res.status(400).json({
           message: "alread in history"
@@ -44,7 +44,7 @@ exports.gethistorySearch = async (req, res) =>  {
  
     let history = await History.find({
         user_id
-      });
+      }).populate('User');;
 
      
      res.send(history)

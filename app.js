@@ -66,6 +66,14 @@ app.get('/history', function(req, res) {
 });
 
 
+// history page
+app.get('/example', function(req, res) {
+  
+    res.render('pages/example');
+});
+
+
+
 
 //MiddleWares
 app.use(bodyParser.json())
